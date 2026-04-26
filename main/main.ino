@@ -13,7 +13,7 @@ byte ledState = 0; // Holds the current state of all 8 outputs (00000000)
 const uint8_t BTN_PINS[5]   = {9, 7, 10, 18, 19};
 const uint8_t DF_BUSY_PIN   = 3;
 const uint8_t ISD_REC_PIN   = 5;
-const uint8_t ISD_PLAYE_PIN = 6;
+const uint8_t ISD_PLAYE_PIN = 7;
 
 const uint8_t RELAY_DF  = 20;
 const uint8_t RELAY_ISD = 21;
@@ -463,7 +463,7 @@ void isdPlayOnce() {
   //digitalWrite(ISD_PLAYE_PIN, HIGH);
   bitSet(ledState, ISD_PLAYE_PIN); 
   updateShiftRegister();
-  delay(50);
+  delay(400);
   //digitalWrite(ISD_PLAYE_PIN, LOW);
   bitClear(ledState, ISD_PLAYE_PIN); 
   updateShiftRegister();
@@ -539,9 +539,11 @@ void recordPlayback() {
     // ── Button 4 tap → ONE-SHOT PLAYBACK ────────────────────────────────────
     if (isHeld(4)) {
       delay(30);
-      waitForRelease(BTN_PINS[2]);
+      waitForRelease(BTN_PINS[4]);
+      delay(100);
       isdPlayOnce();
       lightButton(4, 200);
+      delay(500);
       continue;
     }
 
